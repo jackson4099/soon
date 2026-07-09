@@ -49,7 +49,7 @@
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            padding: 25px 30px 40px; /* Increased bottom padding to fit the new text */
+            padding: 25px 30px 40px; 
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -119,31 +119,7 @@
             border-color: #333;
         }
 
-        /* Custom color picker adjustments */
-        input[type="color"] {
-            cursor: pointer;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 2px solid rgba(0,0,0,0.1);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            padding: 0;
-            overflow: hidden;
-            transition: transform 0.2s ease;
-        }
-        
-        input[type="color"]:hover {
-            transform: scale(1.15);
-        }
-
-        input[type="color"]::-webkit-color-swatch-wrapper {
-            padding: 0;
-        }
-        input[type="color"]::-webkit-color-swatch {
-            border: none;
-            border-radius: 50%;
-        }
-
+        /* --- NEW RAINBOW WHEEL CONTAINER --- */
         .custom-picker-container {
             position: relative;
             display: flex;
@@ -154,16 +130,40 @@
             border-left: 2px solid #ddd;
         }
 
-        /* --- NEW TEXT LABEL --- */
+        .rainbow-wheel {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            /* This creates the color wheel effect */
+            background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+            border: 2px solid rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease;
+        }
+
+        .custom-picker-container:hover .rainbow-wheel {
+            transform: scale(1.15);
+        }
+
+        /* Make the actual input invisible but keep it on top so it opens the menu when clicked */
+        input[type="color"]#bgColor {
+            position: absolute;
+            top: 0;
+            width: 36px;
+            height: 36px;
+            opacity: 0; /* Hidden but clickable */
+            cursor: pointer;
+        }
+
         .picker-label {
             position: absolute;
-            top: 100%; /* Pushes text below the circle */
+            top: 100%; 
             margin-top: 6px;
             font-size: 0.65rem;
             font-weight: 600;
             color: #888;
             text-align: center;
-            width: max-content; /* Prevents text from squishing */
+            width: max-content; 
         }
 
         .btn {
@@ -246,8 +246,9 @@
                 <div class="swatch" style="background: #2c2c2c;" data-color="#2c2c2c" title="Dark Gray"></div>
                 
                 <div class="custom-picker-container" title="Custom Color">
+                    <div class="rainbow-wheel"></div>
                     <input type="color" id="bgColor" value="#000000">
-                    <span class="picker-label">choose any colour</span>
+                    <span class="picker-label">more colours</span>
                 </div>
             </div>
         </div>
