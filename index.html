@@ -119,7 +119,7 @@
             border-color: #333;
         }
 
-        /* --- FIXED RAINBOW WHEEL CONTAINER --- */
+        /* --- NEW RAINBOW WHEEL CONTAINER --- */
         .custom-picker-container {
             position: relative;
             display: flex;
@@ -130,9 +130,8 @@
             border-left: 2px solid #ddd;
         }
 
-        /* Rainbow wheel is now a label! */
+        /* Pure CSS Wheel - No Inputs Here! */
         .rainbow-wheel {
-            display: block;
             cursor: pointer;
             width: 36px;
             height: 36px;
@@ -147,13 +146,17 @@
             transform: scale(1.15);
         }
 
-        /* Completely crush and hide the real input so it can't ruin the design */
-        input[type="color"]#bgColor {
-            visibility: hidden;
+        /* The true input is banished off the screen */
+        .banished-input {
             position: absolute;
+            top: -9999px;
+            left: -9999px;
+            opacity: 0;
             width: 0;
             height: 0;
-            pointer-events: none;
+            border: none;
+            padding: 0;
+            margin: 0;
         }
 
         .picker-label {
@@ -247,8 +250,7 @@
                 <div class="swatch" style="background: #2c2c2c;" data-color="#2c2c2c" title="Dark Gray"></div>
                 
                 <div class="custom-picker-container" title="Custom Color">
-                    <label for="bgColor" class="rainbow-wheel"></label>
-                    <input type="color" id="bgColor" value="#000000">
+                    <div id="rainbowTrigger" class="rainbow-wheel"></div>
                     <span class="picker-label">more colours</span>
                 </div>
             </div>
@@ -271,6 +273,8 @@
         </div>
     </div>
 
+    <input type="color" id="bgColor" class="banished-input" value="#000000">
+
     <div class="canvas-container">
         <canvas id="canvas"></canvas>
     </div>
@@ -283,6 +287,7 @@
         const downloadBtn = document.getElementById('downloadBtn');
         const autoColorBtn = document.getElementById('autoColorBtn');
         const swatches = document.querySelectorAll('.swatch');
+        const rainbowTrigger = document.getElementById('rainbowTrigger');
 
         const CANVAS_WIDTH = 1080;
         const CANVAS_HEIGHT = 1920;
@@ -311,6 +316,13 @@
                 ctx.drawImage(uploadedImage, x, y, newWidth, newHeight);
             }
         }
+
+        // --- NEW JAVASCRIPT ---
+        // When you click the beautiful CSS wheel, Javascript sneaks over 
+        // and clicks the ugly HTML input hidden offscreen.
+        rainbowTrigger.addEventListener('click', () => {
+            bgColorPicker.click();
+        });
 
         swatches.forEach(swatch => {
             swatch.addEventListener('click', () => {
