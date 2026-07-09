@@ -49,7 +49,7 @@
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            padding: 25px 30px;
+            padding: 25px 30px 40px; /* Increased bottom padding to fit the new text */
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -97,7 +97,7 @@
             background-color: #e4e4eb;
         }
 
-        /* --- NEW PALETTE STYLES --- */
+        /* --- PALETTE STYLES --- */
         .palette {
             display: flex;
             gap: 10px;
@@ -119,7 +119,7 @@
             border-color: #333;
         }
 
-        /* Tweak the custom color picker to match the swatches */
+        /* Custom color picker adjustments */
         input[type="color"] {
             cursor: pointer;
             width: 36px;
@@ -145,12 +145,25 @@
         }
 
         .custom-picker-container {
+            position: relative;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
             margin-left: 5px;
             padding-left: 15px;
             border-left: 2px solid #ddd;
+        }
+
+        /* --- NEW TEXT LABEL --- */
+        .picker-label {
+            position: absolute;
+            top: 100%; /* Pushes text below the circle */
+            margin-top: 6px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #888;
+            text-align: center;
+            width: max-content; /* Prevents text from squishing */
         }
 
         .btn {
@@ -234,12 +247,14 @@
                 
                 <div class="custom-picker-container" title="Custom Color">
                     <input type="color" id="bgColor" value="#000000">
+                    <span class="picker-label">choose any colour</span>
                 </div>
             </div>
         </div>
 
         <div class="control-group">
-            <label>&nbsp;</label> <button id="autoColorBtn" class="btn">
+            <label>&nbsp;</label> 
+            <button id="autoColorBtn" class="btn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
                 Auto-Detect
             </button>
@@ -265,7 +280,7 @@
         const bgColorPicker = document.getElementById('bgColor');
         const downloadBtn = document.getElementById('downloadBtn');
         const autoColorBtn = document.getElementById('autoColorBtn');
-        const swatches = document.querySelectorAll('.swatch'); // Select all custom swatches
+        const swatches = document.querySelectorAll('.swatch');
 
         const CANVAS_WIDTH = 1080;
         const CANVAS_HEIGHT = 1920;
@@ -295,12 +310,11 @@
             }
         }
 
-        // Handle Custom Swatch Clicks
         swatches.forEach(swatch => {
             swatch.addEventListener('click', () => {
                 const selectedColor = swatch.getAttribute('data-color');
-                bgColorPicker.value = selectedColor; // Sync the native picker to the clicked swatch
-                renderCanvas(); // Redraw canvas
+                bgColorPicker.value = selectedColor; 
+                renderCanvas();
             });
         });
 
