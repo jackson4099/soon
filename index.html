@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +39,6 @@
             margin: 5px 0 0 0;
             font-size: 1.1rem;
             font-weight: 600;
-            /* Instagram-style gradient text */
             background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -48,7 +46,6 @@
         }
 
         .controls {
-            /* Glassmorphism effect */
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -58,7 +55,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             margin-bottom: 30px;
             display: flex;
-            gap: 20px;
+            gap: 25px;
             align-items: center;
             flex-wrap: wrap;
             justify-content: center;
@@ -69,7 +66,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
 
         .control-group label {
@@ -100,15 +97,43 @@
             background-color: #e4e4eb;
         }
 
+        /* --- NEW PALETTE STYLES --- */
+        .palette {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .swatch {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .swatch:hover {
+            transform: scale(1.15);
+            border-color: #333;
+        }
+
+        /* Tweak the custom color picker to match the swatches */
         input[type="color"] {
             cursor: pointer;
-            width: 45px;
-            height: 45px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            border: 2px solid #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 2px solid rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
             padding: 0;
             overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+        
+        input[type="color"]:hover {
+            transform: scale(1.15);
         }
 
         input[type="color"]::-webkit-color-swatch-wrapper {
@@ -117,6 +142,15 @@
         input[type="color"]::-webkit-color-swatch {
             border: none;
             border-radius: 50%;
+        }
+
+        .custom-picker-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 5px;
+            padding-left: 15px;
+            border-left: 2px solid #ddd;
         }
 
         .btn {
@@ -168,9 +202,8 @@
 
         canvas {
             max-height: 65vh;
-            background-color: #f9f9f9;
+            background-color: #000;
             border-radius: 12px;
-             
             display: block;
         }
     </style>
@@ -189,19 +222,36 @@
         </div>
         
         <div class="control-group">
-            <label for="bgColor">2. Background colour</label>
-            <input type="color" id="bgColor" value="#000000">
+            <label>2. Pick a Background</label>
+            <div class="palette">
+                <div class="swatch" style="background: #000000;" data-color="#000000" title="Black"></div>
+                <div class="swatch" style="background: #ffffff;" data-color="#ffffff" title="White"></div>
+                <div class="swatch" style="background: #f4ece6;" data-color="#f4ece6" title="Beige"></div>
+                <div class="swatch" style="background: #ffd1dc;" data-color="#ffd1dc" title="Pastel Pink"></div>
+                <div class="swatch" style="background: #aec6cf;" data-color="#aec6cf" title="Icy Blue"></div>
+                <div class="swatch" style="background: #b2ac88;" data-color="#b2ac88" title="Sage Green"></div>
+                <div class="swatch" style="background: #2c2c2c;" data-color="#2c2c2c" title="Dark Gray"></div>
+                
+                <div class="custom-picker-container" title="Custom Color">
+                    <input type="color" id="bgColor" value="#000000">
+                </div>
+            </div>
         </div>
 
-        <button id="autoColorBtn" class="btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-            Auto-Detect colour
-        </button>
+        <div class="control-group">
+            <label>&nbsp;</label> <button id="autoColorBtn" class="btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                Auto-Detect
+            </button>
+        </div>
         
-        <button id="downloadBtn" class="btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-            Download
-        </button>
+        <div class="control-group">
+            <label>&nbsp;</label>
+            <button id="downloadBtn" class="btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                Download
+            </button>
+        </div>
     </div>
 
     <div class="canvas-container">
@@ -215,6 +265,7 @@
         const bgColorPicker = document.getElementById('bgColor');
         const downloadBtn = document.getElementById('downloadBtn');
         const autoColorBtn = document.getElementById('autoColorBtn');
+        const swatches = document.querySelectorAll('.swatch'); // Select all custom swatches
 
         const CANVAS_WIDTH = 1080;
         const CANVAS_HEIGHT = 1920;
@@ -244,6 +295,15 @@
             }
         }
 
+        // Handle Custom Swatch Clicks
+        swatches.forEach(swatch => {
+            swatch.addEventListener('click', () => {
+                const selectedColor = swatch.getAttribute('data-color');
+                bgColorPicker.value = selectedColor; // Sync the native picker to the clicked swatch
+                renderCanvas(); // Redraw canvas
+            });
+        });
+
         function getDistance(touch1, touch2) {
             return Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
         }
@@ -255,19 +315,16 @@
         });
 
         canvas.addEventListener('touchmove', (e) => {
-    // Only intercept if exactly two fingers are touching
-    if (e.touches.length === 2 && uploadedImage) {
-        e.preventDefault(); // This stops the page from scrolling/zooming while pinching
-        
-        const currentDistance = getDistance(e.touches[0], e.touches[1]);
-        const distanceRatio = currentDistance / initialPinchDistance;
-        customScale *= distanceRatio;
-        customScale = Math.max(0.1, customScale); 
-        initialPinchDistance = currentDistance; 
-        renderCanvas();
-    }
-    // If it's just 1 finger, it skips this block and scrolls the page normally!
-}, { passive: false }); // <-- ADD { passive: false } HERE
+            if (e.touches.length === 2 && uploadedImage) {
+                e.preventDefault(); 
+                const currentDistance = getDistance(e.touches[0], e.touches[1]);
+                const distanceRatio = currentDistance / initialPinchDistance;
+                customScale *= distanceRatio;
+                customScale = Math.max(0.1, customScale); 
+                initialPinchDistance = currentDistance; 
+                renderCanvas();
+            }
+        }, { passive: false }); 
 
         canvas.addEventListener('wheel', (e) => {
             if (uploadedImage) {
