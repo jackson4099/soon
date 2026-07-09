@@ -255,16 +255,19 @@
         });
 
         canvas.addEventListener('touchmove', (e) => {
-            if (e.touches.length === 2 && uploadedImage) {
-                e.preventDefault(); 
-                const currentDistance = getDistance(e.touches[0], e.touches[1]);
-                const distanceRatio = currentDistance / initialPinchDistance;
-                customScale *= distanceRatio;
-                customScale = Math.max(0.1, customScale); 
-                initialPinchDistance = currentDistance; 
-                renderCanvas();
-            }
-        });
+    // Only intercept if exactly two fingers are touching
+    if (e.touches.length === 2 && uploadedImage) {
+        e.preventDefault(); // This stops the page from scrolling/zooming while pinching
+        
+        const currentDistance = getDistance(e.touches[0], e.touches[1]);
+        const distanceRatio = currentDistance / initialPinchDistance;
+        customScale *= distanceRatio;
+        customScale = Math.max(0.1, customScale); 
+        initialPinchDistance = currentDistance; 
+        renderCanvas();
+    }
+    // If it's just 1 finger, it skips this block and scrolls the page normally!
+}, { passive: false }); // <-- ADD { passive: false } HERE
 
         canvas.addEventListener('wheel', (e) => {
             if (uploadedImage) {
