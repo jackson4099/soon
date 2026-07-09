@@ -119,7 +119,7 @@
             border-color: #333;
         }
 
-        /* --- NEW RAINBOW WHEEL CONTAINER --- */
+        /* --- FIXED RAINBOW WHEEL CONTAINER --- */
         .custom-picker-container {
             position: relative;
             display: flex;
@@ -130,11 +130,13 @@
             border-left: 2px solid #ddd;
         }
 
+        /* Rainbow wheel is now a label! */
         .rainbow-wheel {
+            display: block;
+            cursor: pointer;
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            /* This creates the color wheel effect */
             background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
             border: 2px solid rgba(0,0,0,0.1);
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
@@ -145,14 +147,13 @@
             transform: scale(1.15);
         }
 
-        /* Make the actual input invisible but keep it on top so it opens the menu when clicked */
+        /* Completely crush and hide the real input so it can't ruin the design */
         input[type="color"]#bgColor {
+            visibility: hidden;
             position: absolute;
-            top: 0;
-            width: 36px;
-            height: 36px;
-            opacity: 0; /* Hidden but clickable */
-            cursor: pointer;
+            width: 0;
+            height: 0;
+            pointer-events: none;
         }
 
         .picker-label {
@@ -246,7 +247,7 @@
                 <div class="swatch" style="background: #2c2c2c;" data-color="#2c2c2c" title="Dark Gray"></div>
                 
                 <div class="custom-picker-container" title="Custom Color">
-                    <div class="rainbow-wheel"></div>
+                    <label for="bgColor" class="rainbow-wheel"></label>
                     <input type="color" id="bgColor" value="#000000">
                     <span class="picker-label">more colours</span>
                 </div>
