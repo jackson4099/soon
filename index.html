@@ -100,13 +100,16 @@
         /* --- PALETTE STYLES --- */
         .palette {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
+            justify-content: center;
+            flex-wrap: wrap; 
+            max-width: 650px; 
         }
 
         .swatch {
-            width: 36px;
-            height: 36px;
+            width: 28px; 
+            height: 28px;
             border-radius: 50%;
             cursor: pointer;
             border: 2px solid rgba(0,0,0,0.1);
@@ -115,38 +118,39 @@
         }
 
         .swatch:hover {
-            transform: scale(1.15);
+            transform: scale(1.2);
             border-color: #333;
-        }
-
-        /* --- NEW RAINBOW WHEEL CONTAINER --- */
-        .custom-picker-container {
+            z-index: 2; 
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-left: 5px;
-            padding-left: 15px;
-            border-left: 2px solid #ddd;
         }
 
-        /* Pure CSS Wheel - No Inputs Here! */
-        .rainbow-wheel {
+        /* --- NEW CUSTOM COLOR BUTTON --- */
+        .custom-color-btn {
             cursor: pointer;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
-            border: 2px solid rgba(0,0,0,0.1);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            transition: transform 0.2s ease;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.75rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            margin-left: 4px;
         }
 
-        .custom-picker-container:hover .rainbow-wheel {
-            transform: scale(1.15);
+        .custom-color-btn:hover {
+            background-color: #f0f0f5;
+            transform: scale(1.05);
+            color: #333;
         }
 
-        /* The true input is banished off the screen */
+        .custom-color-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* The true input remains banished off the screen */
         .banished-input {
             position: absolute;
             top: -9999px;
@@ -157,17 +161,6 @@
             border: none;
             padding: 0;
             margin: 0;
-        }
-
-        .picker-label {
-            position: absolute;
-            top: 100%; 
-            margin-top: 6px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: #888;
-            text-align: center;
-            width: max-content; 
         }
 
         .btn {
@@ -215,6 +208,7 @@
             background: white;
             border-radius: 24px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            margin-top: 10px;
         }
 
         canvas {
@@ -241,18 +235,59 @@
         <div class="control-group">
             <label>2. Pick a Background</label>
             <div class="palette">
-                <div class="swatch" style="background: #000000;" data-color="#000000" title="Black"></div>
                 <div class="swatch" style="background: #ffffff;" data-color="#ffffff" title="White"></div>
-                <div class="swatch" style="background: #f4ece6;" data-color="#f4ece6" title="Beige"></div>
-                <div class="swatch" style="background: #ffd1dc;" data-color="#ffd1dc" title="Pastel Pink"></div>
-                <div class="swatch" style="background: #aec6cf;" data-color="#aec6cf" title="Icy Blue"></div>
-                <div class="swatch" style="background: #b2ac88;" data-color="#b2ac88" title="Sage Green"></div>
-                <div class="swatch" style="background: #2c2c2c;" data-color="#2c2c2c" title="Dark Gray"></div>
+                <div class="swatch" style="background: #fdf6e3;" data-color="#fdf6e3" title="Off White"></div>
+                <div class="swatch" style="background: #fbf8f1;" data-color="#fbf8f1" title="Soft Cream"></div>
+                <div class="swatch" style="background: #fcf4dd;" data-color="#fcf4dd" title="Vanilla"></div>
+                <div class="swatch" style="background: #faf0e6;" data-color="#faf0e6" title="Linen"></div>
+                <div class="swatch" style="background: #f3e9dc;" data-color="#f3e9dc" title="Almond"></div>
+                <div class="swatch" style="background: #f4ece6;" data-color="#f4ece6" title="Warm Beige"></div>
+                <div class="swatch" style="background: #e6e2d3;" data-color="#e6e2d3" title="Oatmeal"></div>
                 
-                <div class="custom-picker-container" title="Custom Color">
-                    <div id="rainbowTrigger" class="rainbow-wheel"></div>
-                    <span class="picker-label">more colours</span>
-                </div>
+                <div class="swatch" style="background: #fff0f5;" data-color="#fff0f5" title="Lavender Blush"></div>
+                <div class="swatch" style="background: #ffe5ec;" data-color="#ffe5ec" title="Blush"></div>
+                <div class="swatch" style="background: #f6dfeb;" data-color="#f6dfeb" title="Fairy Tale Pink"></div>
+                <div class="swatch" style="background: #ffd1dc;" data-color="#ffd1dc" title="Pastel Pink"></div>
+                <div class="swatch" style="background: #ffb3ba;" data-color="#ffb3ba" title="Light Coral Pink"></div>
+                <div class="swatch" style="background: #f4c2c2;" data-color="#f4c2c2" title="Baby Rose"></div>
+                <div class="swatch" style="background: #ffb7b2;" data-color="#ffb7b2" title="Pastel Red"></div>
+                
+                <div class="swatch" style="background: #ffdab9;" data-color="#ffdab9" title="Peach Puff"></div>
+                <div class="swatch" style="background: #ffdac1;" data-color="#ffdac1" title="Pastel Orange"></div>
+                <div class="swatch" style="background: #fbc4ab;" data-color="#fbc4ab" title="Soft Apricot"></div>
+                <div class="swatch" style="background: #fdfd96;" data-color="#fdfd96" title="Pastel Yellow"></div>
+                <div class="swatch" style="background: #f6eac2;" data-color="#f6eac2" title="Buttermilk"></div>
+                <div class="swatch" style="background: #e2f0cb;" data-color="#e2f0cb" title="Pastel Yellow-Green"></div>
+                
+                <div class="swatch" style="background: #e0f8d8;" data-color="#e0f8d8" title="Pale Mint"></div>
+                <div class="swatch" style="background: #bdecb6;" data-color="#bdecb6" title="Mint Cream"></div>
+                <div class="swatch" style="background: #cce2cb;" data-color="#cce2cb" title="Celadon"></div>
+                <div class="swatch" style="background: #b5ead7;" data-color="#b5ead7" title="Pastel Mint"></div>
+                <div class="swatch" style="background: #c1e1c1;" data-color="#c1e1c1" title="Pastel Green"></div>
+                <div class="swatch" style="background: #b2ac88;" data-color="#b2ac88" title="Sage Green"></div>
+                <div class="swatch" style="background: #8fbc8f;" data-color="#8fbc8f" title="Dark Sea Green"></div>
+                
+                <div class="swatch" style="background: #f0f8ff;" data-color="#f0f8ff" title="Alice Blue"></div>
+                <div class="swatch" style="background: #d4f0f0;" data-color="#d4f0f0" title="Iceberg"></div>
+                <div class="swatch" style="background: #aeece4;" data-color="#aeece4" title="Aqua Haze"></div>
+                <div class="swatch" style="background: #b0e0e6;" data-color="#b0e0e6" title="Powder Blue"></div>
+                <div class="swatch" style="background: #aec6cf;" data-color="#aec6cf" title="Pastel Blue"></div>
+                <div class="swatch" style="background: #a2cffe;" data-color="#a2cffe" title="Baby Blue"></div>
+                
+                <div class="swatch" style="background: #e6e6fa;" data-color="#e6e6fa" title="Lavender"></div>
+                <div class="swatch" style="background: #c7ceea;" data-color="#c7ceea" title="Pastel Periwinkle"></div>
+                <div class="swatch" style="background: #c1c6fc;" data-color="#c1c6fc" title="Light Indigo"></div>
+                <div class="swatch" style="background: #e4c1f9;" data-color="#e4c1f9" title="Thistle"></div>
+                <div class="swatch" style="background: #e0b0ff;" data-color="#e0b0ff" title="Mauve"></div>
+                <div class="swatch" style="background: #d5b8ff;" data-color="#d5b8ff" title="Light Violet"></div>
+                <div class="swatch" style="background: #c8a2c8;" data-color="#c8a2c8" title="Lilac"></div>
+                
+                <div class="swatch" style="background: #778899;" data-color="#778899" title="Light Slate"></div>
+                <div class="swatch" style="background: #4a4a4a;" data-color="#4a4a4a" title="Charcoal"></div>
+                <div class="swatch" style="background: #2c2c2c;" data-color="#2c2c2c" title="Dark Gray"></div>
+                <div class="swatch" style="background: #000000;" data-color="#000000" title="Black"></div>
+                
+                <button type="button" id="rainbowTrigger" class="custom-color-btn">More Colours</button>
             </div>
         </div>
 
@@ -317,9 +352,6 @@
             }
         }
 
-        // --- NEW JAVASCRIPT ---
-        // When you click the beautiful CSS wheel, Javascript sneaks over 
-        // and clicks the ugly HTML input hidden offscreen.
         rainbowTrigger.addEventListener('click', () => {
             bgColorPicker.click();
         });
