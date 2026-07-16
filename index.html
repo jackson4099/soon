@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>9:16 Image Framer</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LC7W5SBHS5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LC7W5SBHS5');
+</script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -17,16 +26,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px; /* Reduced padding to maximize workspace */
+            padding: 20px; 
             margin: 0;
-            height: 100vh; /* Force the body to be exactly the height of the screen */
-            overflow: hidden; /* Prevents scrollbars on desktop for an 'app' feel */
+            height: 100vh; 
+            overflow: hidden; 
         }
 
         .header-container {
             text-align: center;
             margin-bottom: 20px;
-            flex-shrink: 0; /* Prevents header from being squished */
+            flex-shrink: 0; 
         }
 
         h2 {
@@ -46,21 +55,19 @@
             text-transform: lowercase;
         }
 
-        /* --- STRETCHED APP LAYOUT --- */
         .app-layout {
             display: flex;
             flex-direction: row;
             gap: 20px;
             width: 100%;
             max-width: 1200px;
-            flex: 1; /* This tells the layout to stretch and fill all empty space below the header */
-            min-height: 0; /* Flexbox trick to keep it inside the screen */
+            flex: 1; 
+            min-height: 0; 
             margin-bottom: 10px;
         }
 
-        /* Left Side: Controls */
         .controls {
-            flex: 0 0 420px; /* Fixed width for controls */
+            flex: 0 0 420px; 
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -71,7 +78,7 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            height: 100%; /* Fill the entire height of the layout */
+            height: 100%; 
             overflow-y: auto; 
         }
 
@@ -171,7 +178,7 @@
             flex-direction: column; 
             gap: 12px;
             width: 100%;
-            margin-top: auto; /* THIS IS THE MAGIC TRICK: It pushes the buttons to the very bottom, eating up the empty space perfectly */
+            margin-top: auto; 
             padding-top: 20px;
         }
 
@@ -196,10 +203,9 @@
         #autoColorBtn { background: linear-gradient(135deg, #00b09b, #96c93d); color: white; }
         #downloadBtn { background: #111; color: white; }
 
-        /* Right Side: Canvas */
         .canvas-container {
-            flex: 1; /* Expands to fill the remaining right-side width */
-            height: 100%; /* Stretches to match the controls panel */
+            flex: 1; 
+            height: 100%; 
             padding: 20px;
             background: white;
             border-radius: 20px;
@@ -218,11 +224,10 @@
             display: block;
         }
 
-        /* --- MOBILE TWEAKS --- */
         @media (max-width: 800px) {
             body {
                 height: auto;
-                overflow: visible; /* Allow scrolling on phones */
+                overflow: visible; 
             }
             .app-layout { 
                 flex-direction: column; 
@@ -234,7 +239,7 @@
                 max-width: 500px;
             }
             .canvas-container {
-                height: 65vh; /* Give canvas a set height on mobile */
+                height: 65vh; 
             }
         }
     </style>
@@ -325,10 +330,12 @@
                 </button>
             </div>
         </div>
+
         <div class="canvas-container">
             <canvas id="canvas"></canvas>
         </div>
-        </div>
+
+    </div>
 
     <input type="color" id="bgColor" class="banished-input" value="#000000">
 
@@ -445,6 +452,17 @@
 
         downloadBtn.addEventListener('click', () => {
             if (!uploadedImage) return alert("Please upload an image first!");
+            
+            // --- NEW: GOOGLE ANALYTICS EVENT TRACKING ---
+            // This safely checks if GA is loaded, then sends the click event
+            if (typeof gtag === 'function') {
+                gtag('event', 'image_downloaded', {
+                    'event_category': 'engagement',
+                    'event_label': '9x16_tool'
+                });
+            }
+            // --------------------------------------------
+
             const link = document.createElement('a');
             link.download = '9x16-image.png';
             link.href = canvas.toDataURL('image/png');
