@@ -25,7 +25,7 @@
 
         .header-container {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         h2 {
@@ -45,32 +45,43 @@
             text-transform: lowercase;
         }
 
+        /* --- NEW SIDE-BY-SIDE LAYOUT --- */
+        .app-layout {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            width: 100%;
+            max-width: 1100px;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        /* Controls now act as a left sidebar */
         .controls {
+            flex: 1;
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            padding: 25px 30px 40px; 
+            padding: 30px; 
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
             display: flex;
-            gap: 25px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-            max-width: 900px;
+            flex-direction: column; /* Stack everything vertically inside */
+            gap: 30px;
+            max-width: 550px;
         }
 
         .control-group {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start; /* Align text to the left */
             gap: 12px;
+            width: 100%;
         }
 
         .control-group label {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: #555;
             text-transform: uppercase;
@@ -80,6 +91,7 @@
         input[type="file"] {
             font-family: inherit;
             font-size: 0.9rem;
+            width: 100%;
         }
 
         input[type="file"]::file-selector-button {
@@ -91,20 +103,21 @@
             color: #333;
             font-weight: 600;
             transition: all 0.2s ease;
+            margin-right: 15px;
         }
 
         input[type="file"]::file-selector-button:hover {
             background-color: #e4e4eb;
         }
 
-        /* --- PALETTE STYLES --- */
+        /* Palette adjustments for the sidebar */
         .palette {
             display: flex;
             gap: 8px;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             flex-wrap: wrap; 
-            max-width: 650px; 
+            width: 100%;
         }
 
         .swatch {
@@ -124,7 +137,6 @@
             position: relative;
         }
 
-        /* --- NEW CUSTOM COLOR BUTTON --- */
         .custom-color-btn {
             cursor: pointer;
             padding: 6px 14px;
@@ -150,7 +162,6 @@
             transform: scale(0.95);
         }
 
-        /* The true input remains banished off the screen */
         .banished-input {
             position: absolute;
             top: -9999px;
@@ -163,9 +174,17 @@
             margin: 0;
         }
 
+        /* Group buttons together neatly */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
         .btn {
             cursor: pointer;
-            padding: 12px 24px;
+            padding: 14px 20px;
             border-radius: 50px;
             border: none;
             font-weight: 600;
@@ -175,7 +194,9 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
+            flex: 1; /* Makes buttons take up equal half of the row */
         }
 
         .btn:active {
@@ -203,19 +224,40 @@
             transform: translateY(-2px);
         }
 
+        /* Canvas is now the right column */
         .canvas-container {
             padding: 15px;
             background: white;
             border-radius: 24px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            margin-top: 10px;
+            position: sticky; /* Keeps canvas in view even if left side is long */
+            top: 40px;
         }
 
         canvas {
-            max-height: 65vh;
+            max-height: 70vh; /* Scaled down perfectly to fit screen height */
             background-color: #000;
             border-radius: 12px;
             display: block;
+        }
+
+        /* Responsive: Stack vertically on mobile devices */
+        @media (max-width: 900px) {
+            .app-layout {
+                flex-direction: column;
+                align-items: center;
+            }
+            .controls {
+                max-width: 100%;
+                width: 100%;
+            }
+            .canvas-container {
+                position: relative; /* Remove sticky on mobile */
+                top: 0;
+            }
+            .button-group {
+                flex-direction: column; /* Stack buttons on tiny screens */
+            }
         }
     </style>
 </head>
@@ -226,93 +268,91 @@
         <p class="subtitle">Create your perfect insta story with us✨</p>
     </div>
 
-    <div class="controls">
-        <div class="control-group">
-            <label for="imageUpload">1. Upload Pic</label>
-            <input type="file" id="imageUpload" accept="image/*">
-        </div>
+    <div class="app-layout">
         
-        <div class="control-group">
-            <label>2. Pick a Background</label>
-            <div class="palette">
-                <div class="swatch" style="background: #ffffff;" data-color="#ffffff" title="White"></div>
-                <div class="swatch" style="background: #fdf6e3;" data-color="#fdf6e3" title="Off White"></div>
-                <div class="swatch" style="background: #fbf8f1;" data-color="#fbf8f1" title="Soft Cream"></div>
-                <div class="swatch" style="background: #fcf4dd;" data-color="#fcf4dd" title="Vanilla"></div>
-                <div class="swatch" style="background: #faf0e6;" data-color="#faf0e6" title="Linen"></div>
-                <div class="swatch" style="background: #f3e9dc;" data-color="#f3e9dc" title="Almond"></div>
-                <div class="swatch" style="background: #f4ece6;" data-color="#f4ece6" title="Warm Beige"></div>
-                <div class="swatch" style="background: #e6e2d3;" data-color="#e6e2d3" title="Oatmeal"></div>
+        <div class="controls">
+            <div class="control-group">
+                <label for="imageUpload">1. Upload Pic</label>
+                <input type="file" id="imageUpload" accept="image/*">
+            </div>
+            
+            <div class="control-group">
+                <label>2. Pick a Background</label>
+                <div class="palette">
+                    <div class="swatch" style="background: #ffffff;" data-color="#ffffff" title="White"></div>
+                    <div class="swatch" style="background: #fdf6e3;" data-color="#fdf6e3" title="Off White"></div>
+                    <div class="swatch" style="background: #fbf8f1;" data-color="#fbf8f1" title="Soft Cream"></div>
+                    <div class="swatch" style="background: #fcf4dd;" data-color="#fcf4dd" title="Vanilla"></div>
+                    <div class="swatch" style="background: #faf0e6;" data-color="#faf0e6" title="Linen"></div>
+                    <div class="swatch" style="background: #f3e9dc;" data-color="#f3e9dc" title="Almond"></div>
+                    <div class="swatch" style="background: #f4ece6;" data-color="#f4ece6" title="Warm Beige"></div>
+                    <div class="swatch" style="background: #e6e2d3;" data-color="#e6e2d3" title="Oatmeal"></div>
+                    
+                    <div class="swatch" style="background: #fff0f5;" data-color="#fff0f5" title="Lavender Blush"></div>
+                    <div class="swatch" style="background: #ffe5ec;" data-color="#ffe5ec" title="Blush"></div>
+                    <div class="swatch" style="background: #f6dfeb;" data-color="#f6dfeb" title="Fairy Tale Pink"></div>
+                    <div class="swatch" style="background: #ffd1dc;" data-color="#ffd1dc" title="Pastel Pink"></div>
+                    <div class="swatch" style="background: #ffb3ba;" data-color="#ffb3ba" title="Light Coral Pink"></div>
+                    <div class="swatch" style="background: #f4c2c2;" data-color="#f4c2c2" title="Baby Rose"></div>
+                    <div class="swatch" style="background: #ffb7b2;" data-color="#ffb7b2" title="Pastel Red"></div>
+                    
+                    <div class="swatch" style="background: #ffdab9;" data-color="#ffdab9" title="Peach Puff"></div>
+                    <div class="swatch" style="background: #ffdac1;" data-color="#ffdac1" title="Pastel Orange"></div>
+                    <div class="swatch" style="background: #fbc4ab;" data-color="#fbc4ab" title="Soft Apricot"></div>
+                    <div class="swatch" style="background: #fdfd96;" data-color="#fdfd96" title="Pastel Yellow"></div>
+                    <div class="swatch" style="background: #f6eac2;" data-color="#f6eac2" title="Buttermilk"></div>
+                    <div class="swatch" style="background: #e2f0cb;" data-color="#e2f0cb" title="Pastel Yellow-Green"></div>
+                    
+                    <div class="swatch" style="background: #e0f8d8;" data-color="#e0f8d8" title="Pale Mint"></div>
+                    <div class="swatch" style="background: #bdecb6;" data-color="#bdecb6" title="Mint Cream"></div>
+                    <div class="swatch" style="background: #cce2cb;" data-color="#cce2cb" title="Celadon"></div>
+                    <div class="swatch" style="background: #b5ead7;" data-color="#b5ead7" title="Pastel Mint"></div>
+                    <div class="swatch" style="background: #c1e1c1;" data-color="#c1e1c1" title="Pastel Green"></div>
+                    <div class="swatch" style="background: #b2ac88;" data-color="#b2ac88" title="Sage Green"></div>
+                    <div class="swatch" style="background: #8fbc8f;" data-color="#8fbc8f" title="Dark Sea Green"></div>
+                    
+                    <div class="swatch" style="background: #f0f8ff;" data-color="#f0f8ff" title="Alice Blue"></div>
+                    <div class="swatch" style="background: #d4f0f0;" data-color="#d4f0f0" title="Iceberg"></div>
+                    <div class="swatch" style="background: #aeece4;" data-color="#aeece4" title="Aqua Haze"></div>
+                    <div class="swatch" style="background: #b0e0e6;" data-color="#b0e0e6" title="Powder Blue"></div>
+                    <div class="swatch" style="background: #aec6cf;" data-color="#aec6cf" title="Pastel Blue"></div>
+                    <div class="swatch" style="background: #a2cffe;" data-color="#a2cffe" title="Baby Blue"></div>
+                    
+                    <div class="swatch" style="background: #e6e6fa;" data-color="#e6e6fa" title="Lavender"></div>
+                    <div class="swatch" style="background: #c7ceea;" data-color="#c7ceea" title="Pastel Periwinkle"></div>
+                    <div class="swatch" style="background: #c1c6fc;" data-color="#c1c6fc" title="Light Indigo"></div>
+                    <div class="swatch" style="background: #e4c1f9;" data-color="#e4c1f9" title="Thistle"></div>
+                    <div class="swatch" style="background: #e0b0ff;" data-color="#e0b0ff" title="Mauve"></div>
+                    <div class="swatch" style="background: #d5b8ff;" data-color="#d5b8ff" title="Light Violet"></div>
+                    <div class="swatch" style="background: #c8a2c8;" data-color="#c8a2c8" title="Lilac"></div>
+                    
+                    <div class="swatch" style="background: #778899;" data-color="#778899" title="Light Slate"></div>
+                    <div class="swatch" style="background: #4a4a4a;" data-color="#4a4a4a" title="Charcoal"></div>
+                    <div class="swatch" style="background: #2c2c2c;" data-color="#2c2c2c" title="Dark Gray"></div>
+                    <div class="swatch" style="background: #000000;" data-color="#000000" title="Black"></div>
+                    
+                    <button type="button" id="rainbowTrigger" class="custom-color-btn">More Colours</button>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="autoColorBtn" class="btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    Auto-Detect
+                </button>
                 
-                <div class="swatch" style="background: #fff0f5;" data-color="#fff0f5" title="Lavender Blush"></div>
-                <div class="swatch" style="background: #ffe5ec;" data-color="#ffe5ec" title="Blush"></div>
-                <div class="swatch" style="background: #f6dfeb;" data-color="#f6dfeb" title="Fairy Tale Pink"></div>
-                <div class="swatch" style="background: #ffd1dc;" data-color="#ffd1dc" title="Pastel Pink"></div>
-                <div class="swatch" style="background: #ffb3ba;" data-color="#ffb3ba" title="Light Coral Pink"></div>
-                <div class="swatch" style="background: #f4c2c2;" data-color="#f4c2c2" title="Baby Rose"></div>
-                <div class="swatch" style="background: #ffb7b2;" data-color="#ffb7b2" title="Pastel Red"></div>
-                
-                <div class="swatch" style="background: #ffdab9;" data-color="#ffdab9" title="Peach Puff"></div>
-                <div class="swatch" style="background: #ffdac1;" data-color="#ffdac1" title="Pastel Orange"></div>
-                <div class="swatch" style="background: #fbc4ab;" data-color="#fbc4ab" title="Soft Apricot"></div>
-                <div class="swatch" style="background: #fdfd96;" data-color="#fdfd96" title="Pastel Yellow"></div>
-                <div class="swatch" style="background: #f6eac2;" data-color="#f6eac2" title="Buttermilk"></div>
-                <div class="swatch" style="background: #e2f0cb;" data-color="#e2f0cb" title="Pastel Yellow-Green"></div>
-                
-                <div class="swatch" style="background: #e0f8d8;" data-color="#e0f8d8" title="Pale Mint"></div>
-                <div class="swatch" style="background: #bdecb6;" data-color="#bdecb6" title="Mint Cream"></div>
-                <div class="swatch" style="background: #cce2cb;" data-color="#cce2cb" title="Celadon"></div>
-                <div class="swatch" style="background: #b5ead7;" data-color="#b5ead7" title="Pastel Mint"></div>
-                <div class="swatch" style="background: #c1e1c1;" data-color="#c1e1c1" title="Pastel Green"></div>
-                <div class="swatch" style="background: #b2ac88;" data-color="#b2ac88" title="Sage Green"></div>
-                <div class="swatch" style="background: #8fbc8f;" data-color="#8fbc8f" title="Dark Sea Green"></div>
-                
-                <div class="swatch" style="background: #f0f8ff;" data-color="#f0f8ff" title="Alice Blue"></div>
-                <div class="swatch" style="background: #d4f0f0;" data-color="#d4f0f0" title="Iceberg"></div>
-                <div class="swatch" style="background: #aeece4;" data-color="#aeece4" title="Aqua Haze"></div>
-                <div class="swatch" style="background: #b0e0e6;" data-color="#b0e0e6" title="Powder Blue"></div>
-                <div class="swatch" style="background: #aec6cf;" data-color="#aec6cf" title="Pastel Blue"></div>
-                <div class="swatch" style="background: #a2cffe;" data-color="#a2cffe" title="Baby Blue"></div>
-                
-                <div class="swatch" style="background: #e6e6fa;" data-color="#e6e6fa" title="Lavender"></div>
-                <div class="swatch" style="background: #c7ceea;" data-color="#c7ceea" title="Pastel Periwinkle"></div>
-                <div class="swatch" style="background: #c1c6fc;" data-color="#c1c6fc" title="Light Indigo"></div>
-                <div class="swatch" style="background: #e4c1f9;" data-color="#e4c1f9" title="Thistle"></div>
-                <div class="swatch" style="background: #e0b0ff;" data-color="#e0b0ff" title="Mauve"></div>
-                <div class="swatch" style="background: #d5b8ff;" data-color="#d5b8ff" title="Light Violet"></div>
-                <div class="swatch" style="background: #c8a2c8;" data-color="#c8a2c8" title="Lilac"></div>
-                
-                <div class="swatch" style="background: #778899;" data-color="#778899" title="Light Slate"></div>
-                <div class="swatch" style="background: #4a4a4a;" data-color="#4a4a4a" title="Charcoal"></div>
-                <div class="swatch" style="background: #2c2c2c;" data-color="#2c2c2c" title="Dark Gray"></div>
-                <div class="swatch" style="background: #000000;" data-color="#000000" title="Black"></div>
-                
-                <button type="button" id="rainbowTrigger" class="custom-color-btn">More Colours</button>
+                <button id="downloadBtn" class="btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    Download
+                </button>
             </div>
         </div>
-
-        <div class="control-group">
-            <label>&nbsp;</label> 
-            <button id="autoColorBtn" class="btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-                Auto-Detect
-            </button>
+        <div class="canvas-container">
+            <canvas id="canvas"></canvas>
         </div>
-        
-        <div class="control-group">
-            <label>&nbsp;</label>
-            <button id="downloadBtn" class="btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                Download
-            </button>
         </div>
-    </div>
 
     <input type="color" id="bgColor" class="banished-input" value="#000000">
-
-    <div class="canvas-container">
-        <canvas id="canvas"></canvas>
-    </div>
 
     <script>
         const canvas = document.getElementById('canvas');
