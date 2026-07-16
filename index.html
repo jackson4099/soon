@@ -107,18 +107,17 @@
             width: 100%;
         }
 
-        input[type="file"]::file-selector-button {
-            cursor: pointer;
-            padding: 8px 14px;
-            border-radius: 50px;
-            border: none;
-            background-color: #f0f0f5;
-            color: #333;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            margin-right: 10px;
-        }
-
+       input[type="file"]::file-selector-button {
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 50px;
+    border: 1px solid #00b09b; /* <-- Changed from 'none' to a thin colored border */
+    background-color: #f0f0f5;
+    color: #333;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    margin-right: 10px;
+}
         input[type="file"]::file-selector-button:hover { background-color: #e4e4eb; }
 
         .palette {
